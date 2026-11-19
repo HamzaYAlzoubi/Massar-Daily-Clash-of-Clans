@@ -4,6 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>مسار — متابعة العملاء</title>
+<meta name="description" content="مسار — متابعة العملاء وجولة العمل اليومية. تطبيق قابل للتثبيت ويعمل دون اتصال.">
+<meta name="theme-color" content="#17996A" id="tc">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="مسار">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Crect width='36' height='36' rx='10' fill='%2317996A'/%3E%3Cpath d='M8 27c5 0 5-9 10-9s5-9 10-9' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='28' cy='9' r='4' fill='%23F7C873'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -74,7 +82,7 @@ tr:last-child td{border-bottom:0}
 .sub{color:var(--mut);font-size:13px}
 .note{color:var(--mut);font-size:13.5px;max-width:300px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .chn{display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
-.stg,.pill{border:0;border-radius:99px;padding:4px 10px;font-weight:600;font-size:13.5px;color:var(--sc);background:color-mix(in srgb,var(--sc) 15%,transparent)}
+.stg,.pill{border:0;border-radius:99px;padding:4px 10px;font-weight:600;font-size:13.5px;color:color-mix(in srgb,var(--sc) 62%,var(--ink));background:color-mix(in srgb,var(--sc) 15%,transparent)}
 .late{color:var(--warn);font-weight:600}
 .acts{text-align:end}
 .sm{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:4px 10px;font-size:13px;margin-block:2px;margin-inline-start:4px}
@@ -94,8 +102,17 @@ dialog label .in{margin-top:5px;font-weight:400}
 #il{margin-top:14px;max-height:240px;overflow:auto}
 .top{display:none}
 .scrim{display:none;position:fixed;inset:0;background:rgba(15,19,26,.45);z-index:25}
-.menu{display:inline-flex;align-items:center;gap:8px;padding:7px 14px}
-.menu svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.menu{display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;padding:0;border-radius:50%;box-shadow:0 6px 20px rgba(0,0,0,.28)}
+.fu em.pill{font-style:normal;margin-inline-end:6px}
+.pill.hot{background:#F5C400;color:#2B2200}
+.stats .stat:nth-child(2) b,.stats .stat:nth-child(2) span{color:color-mix(in srgb,#E8A800 85%,var(--ink))}
+.av{width:36px;height:36px;border-radius:50%;flex:none;object-fit:cover;background:var(--line);color:var(--mut);display:inline-block;vertical-align:middle;overflow:hidden}
+.av svg{display:block;width:100%;height:100%;fill:currentColor}
+.av.lg{width:56px;height:56px}.av.xl{width:84px;height:84px}
+.nm{display:flex;align-items:center;gap:12px}.nt{min-width:0}
+.avrow{display:flex;align-items:center;gap:10px;margin-bottom:14px}.avrow .btn{padding:6px 12px;font-size:13px}
+.vh{display:flex;align-items:center;gap:14px}
+.menu svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
 tbody tr{cursor:pointer}tbody tr:hover{background:var(--soft)}
 .ct span{display:inline-block;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:bottom}
 .sm.done{color:var(--maps);border-color:var(--maps)}
@@ -112,12 +129,12 @@ dialog h3{font-size:14px;color:var(--mut);font-weight:500;margin:16px 0 4px}
 .idea p{margin:0;flex:1;white-space:pre-wrap}.idea span{color:var(--mut);font-size:13px;white-space:nowrap}
 @media (max-width:1280px){
 .app{flex-direction:column}
-.top{display:flex;align-items:center;position:sticky;top:env(safe-area-inset-top,0px);z-index:15;background:var(--bg);padding:10px clamp(16px,4vw,44px);border-bottom:1px solid var(--line)}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:16}
+.top{display:block;position:fixed;inset-inline-start:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20}
+
 .side{position:fixed;top:0;bottom:0;inset-inline-start:0;height:auto;z-index:30;transform:translateX(100%);visibility:hidden;transition:transform .25s,visibility .25s;padding-top:calc(22px + env(safe-area-inset-top,0px));padding-bottom:calc(22px + env(safe-area-inset-bottom,0px))}
 .side.open{transform:none;visibility:visible;box-shadow:0 0 40px rgba(0,0,0,.25)}
 .scrim.on{display:block}
-.main{align-self:center;width:100%}
+.main{align-self:center;width:100%;padding-bottom:96px}
 }
 @media (max-width:900px){
 table{min-width:0}thead{display:none}
@@ -145,7 +162,7 @@ td:first-child,.acts{flex:1 0 100%}
 </head>
 <body>
 <div class="app">
-<div class="top"><button class="btn ghost menu" data-a="menu" aria-label="فتح القائمة"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>القائمة</button></div>
+<div class="top"><button class="btn menu" data-a="menu" aria-label="فتح القائمة"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>
 <div class="scrim" id="scrim" data-a="menuclose"></div>
 <aside class="side">
 <div class="logo"><svg viewBox="56 0 138 72" role="img" aria-label="مسار"><defs><linearGradient id="lg" gradientUnits="userSpaceOnUse" x1="190" y1="0" x2="60" y2="70"><stop offset="0" stop-color="#17996A"/><stop offset="1" stop-color="#1B8FB5"/></linearGradient></defs><g fill="none" stroke="url(#lg)" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="178" cy="45" r="8.5"/><path d="M178 54H160c-3-16-11-16-14 0c-3-16-11-16-14 0c-3-16-11-16-14 0H98V16"/><path d="M86 40C86 54 80 63 62 62"/></g><circle cx="98" cy="10" r="5.5" fill="#F7C873"/></svg></div>
@@ -153,6 +170,7 @@ td:first-child,.acts{flex:1 0 100%}
 <button class="nv" data-a="go" data-v="routine"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16 9.5"/></svg>جولة اليوم</button>
 <button class="nv" data-a="go" data-v="clients"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><path d="M16 4.7a3.5 3.5 0 0 1 0 6.6M18 14.8c2 .6 3.2 2.3 3.5 5.2"/></svg>العملاء</button>
 <button class="nv thm" data-a="theme"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg><span id="tl">الوضع الداكن</span></button>
+<button class="nv" id="inst" data-a="install" hidden><svg viewBox="0 0 24 24"><path d="M12 4v10"/><path d="M8 10l4 4 4-4"/><path d="M5 19h14"/></svg>تثبيت التطبيق</button>
 <button class="nv sug" data-a="sug"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>صندوق الاقتراحات<span class="bd" id="bd" hidden></span></button>
 </aside>
 <main class="main" id="main"></main>
@@ -160,12 +178,15 @@ td:first-child,.acts{flex:1 0 100%}
 
 <dialog id="cd"><form id="cf">
 <h2 id="ct"></h2>
+<div class="avrow"><span id="ap"></span><button type="button" class="btn ghost" data-a="pickimg">رفع صورة</button><button type="button" class="btn ghost danger" id="rm" data-a="rmimg">إزالة</button><input type="file" id="pf" accept="image/*" hidden></div>
 <label>الاسم<input class="in" name="name" required maxlength="60"></label>
 <div class="two"><label>القناة<select class="in" name="channel"></select></label><label>المرحلة<select class="in" name="stage"></select></label></div>
 <label>وسيلة التواصل<input class="in" name="contact" maxlength="120" placeholder="رقم هاتف أو رابط"></label>
 <label>ملاحظات<textarea class="in" name="note" rows="3" maxlength="400" placeholder="أين وصلت معه؟ وماذا اتفقتما؟"></textarea></label>
 <div class="fa"><button class="btn" type="submit">حفظ</button><button class="btn ghost" type="button" data-a="close">إلغاء</button><button class="btn ghost danger" type="button" id="del" data-a="del">حذف</button></div>
 </form></dialog>
+
+<dialog id="dd"><h2>هذا العميل مضاف سابقاً</h2><div id="db"></div><div class="fa" style="margin-top:20px;flex-wrap:wrap"><button class="btn" data-a="dupreact">أعده إلى القائمة النشطة</button><button class="btn ghost" data-a="dupadd">أعي ذلك، أضفه رغم ذلك</button></div></dialog>
 
 <dialog id="vd"><h2 id="vn"></h2><div id="vb"></div><div class="fa"><button class="btn" data-a="vedit">تعديل</button><button class="btn ghost" data-a="close">إغلاق</button></div></dialog>
 
@@ -180,14 +201,14 @@ td:first-child,.acts{flex:1 0 100%}
 <script>
 const KEY="qura-v1";
 const CH={maps:{n:"خرائط غوغل",c:"var(--maps)"},groups:{n:"مجموعات التواصل",c:"var(--groups)"},brand:{n:"العلامة الشخصية",c:"var(--brand)"},ref:{n:"توصية أو أخرى",c:"var(--ref)"}};
-const ST=[["بانتظار الرد","#8A94A6"],["ردّ","#2F6FED"],["تفاوض","#A855C7"],["قيد التنفيذ","#E0A100"],["مكتمل","#17996A"],["مغلق","#C2575A"]];
+const ST=[["أنوي التواصل","#8A94A6"],["بانتظار الرد","#E8A800"],["ردّ","#2F6FED"],["تفاوض","#A855C7"],["قيد التنفيذ","#EA6A1F"],["مكتمل","#17996A"],["مغلق","#C2575A"]];
 const uid=()=>Math.random().toString(36).slice(2,9);
 const T=(...a)=>a.map(text=>({id:uid(),text}));
-const def=()=>({clients:[],ideas:[],done:{},tasks:{
+const def=()=>({v:2,clients:[],ideas:[],done:{},tasks:{
  maps:T("ابحث عن 10 أنشطة بلا موقع أو بموقع ضعيف","تواصل معهم وأرفق رابط المعرض"),
  groups:T("مرّ على المجموعات وابحث عن الطلبات الجديدة","ردّ على الطلبات المناسبة"),
  brand:T("انشر منشوراً جديداً","مرّ على المنصات وردّ على التعليقات")}});
-function load(){try{const r=JSON.parse(localStorage.getItem(KEY));if(r&&r.clients)return r}catch(e){}return def()}
+function load(){try{const r=JSON.parse(localStorage.getItem(KEY));if(r&&r.clients){if(!r.v){r.clients.forEach(c=>c.stage++);r.v=2}return r}}catch(e){}return def()}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
@@ -197,19 +218,22 @@ const ago=s=>Math.round((new Date(today()+"T00:00")-new Date(s+"T00:00"))/864e5)
 const agoTxt=n=>n<=0?"اليوم":n==1?"أمس":n==2?"قبل يومين":n<=10?`قبل ${n} أيام`:`قبل ${n} يومًا`;
 const dateTxt=()=>new Date().toLocaleDateString("ar-JO-u-nu-latn",{weekday:"long",day:"numeric",month:"long"});
 const prog=k=>{const t=S.tasks[k]||[],d=S.done[today()]||{};return[t.filter(x=>d[x.id]).length,t.length]};
-let S=load(),view="home",f={stage:"all",ch:"all",q:"",arch:false},editId=null,editIdea=null,viewId=null,day=today();
+let S=load(),view="home",f={stage:"all",ch:"all",q:"",arch:false},editId=null,editIdea=null,viewId=null,formImg="",pend=null,day=today();
+const VIEWS=["home","routine","clients"];
+if(VIEWS.includes(location.hash.slice(1)))view=location.hash.slice(1);
+let installEvt=null;
 
 const head=(t,s,x="")=>`<div class="ph"><div><h1>${t}</h1><p>${s}</p></div>${x}</div>`;
 
 function home(){
  const n=i=>S.clients.filter(c=>c.stage===i).length;
- const st=[["عملاء نشطون",S.clients.filter(c=>c.stage<4).length],["بانتظار الرد",n(0)],["قيد التنفيذ",n(3)],["مشاريع مكتملة",n(4)]];
- const late=S.clients.filter(c=>c.stage<3&&ago(ref(c))>=3).sort((a,b)=>ref(a).localeCompare(ref(b))).slice(0,6);
+ const st=[["عملاء نشطون",S.clients.filter(c=>c.stage<5).length],["بانتظار الرد",n(1)],["قيد التنفيذ",n(4)],["مشاريع مكتملة",n(5)]];
+ const all=S.clients.filter(c=>c.stage<4).sort((a,b)=>ref(a).localeCompare(ref(b))),late=all.slice(0,6);
  return head("الرئيسية",dateTxt())+
  `<div class="stats">${st.map(([l,v])=>`<div class="card stat"><b>${v}</b><span>${l}</span></div>`).join("")}</div>
  <div class="cols">
  <section class="card"><h2>جولة اليوم</h2>${["maps","groups","brand"].map(k=>{const[a,b]=prog(k);return`<div class="pr"><div class="pt"><i style="background:${CH[k].c}"></i>${CH[k].n}<em>${a}/${b}</em></div><div class="bar"><u style="width:${b?a/b*100:0}%;background:${CH[k].c}"></u></div></div>`}).join("")}<button class="btn ghost" data-a="go" data-v="routine">فتح الجولة</button></section>
- <section class="card"><h2>تحتاج إلى متابعة</h2><p class="mut">لم تتواصل معهم منذ 3 أيام أو أكثر</p>${late.length?late.map(c=>`<div class="fu"><div><b>${esc(c.name)}</b><span>${ST[c.stage][0]}، ${c.last?agoTxt(ago(c.last)):"لم يُسجَّل تواصل"}</span></div><button class="sm" data-a="touch" data-id="${c.id}">تواصلت معه</button></div>`).join(""):`<p class="empty">${S.clients.length?"لا أحد ينتظر متابعتك الآن.":"أضف عملاءك في صفحة العملاء ليظهر هنا من يحتاج إلى متابعة."}</p>`}</section>
+ <section class="card"><h2>تحتاج إلى متابعة</h2><p class="mut">عملاء ينتظرون خطوتك التالية، الأقدم تواصلاً أولاً${all.length>6?` (6 من ${all.length})`:""}</p>${late.length?late.map(c=>`<div class="fu"><div><b>${esc(c.name)}</b><span><em class="pill${c.stage===1?" hot":""}" style="--sc:${ST[c.stage][1]}">${ST[c.stage][0]}</em> ${c.last?agoTxt(ago(c.last)):"لم يُسجَّل تواصل"}</span></div><button class="sm${c.last===today()?" done":""}" data-a="touch" data-id="${c.id}">${c.last===today()?"تم اليوم ✓":"تواصلت معه"}</button></div>`).join(""):`<p class="empty">${S.clients.length?"لا أحد ينتظر متابعتك الآن.":"أضف عملاءك في صفحة العملاء ليظهر هنا من يحتاج إلى متابعة."}</p>`}</section>
  </div>`;
 }
 
@@ -221,19 +245,19 @@ function routine(){
 
 function list(){
  const q=f.q.toLowerCase();
- return S.clients.filter(c=>(f.stage==="all"||c.stage===f.stage)&&(f.arch||f.stage===5||c.stage!==5)&&(f.ch==="all"||c.channel===f.ch)&&(!q||c.name.toLowerCase().includes(q)||(c.contact||"").toLowerCase().includes(q)))
-  .sort((a,b)=>a.stage-b.stage||ref(a).localeCompare(ref(b)));
+ return S.clients.filter(c=>(f.stage==="all"||c.stage===f.stage)&&(f.arch||f.stage===6||c.stage!==6)&&(f.ch==="all"||c.channel===f.ch)&&(!q||c.name.toLowerCase().includes(q)||(c.contact||"").toLowerCase().includes(q)))
+  .sort((a,b)=>(b.top||0)-(a.top||0)||a.stage-b.stage||ref(a).localeCompare(ref(b)));
 }
 function tbl(){
  const L=list();
  if(!L.length)return`<p class="empty">${S.clients.length?"لا نتائج مطابقة للفلتر.":"لا يوجد عملاء بعد. أضف أول عميل تتواصل معه."}</p>`;
- return`<table><thead><tr><th>العميل</th><th>طريقة التواصل</th><th>القناة</th><th>المرحلة</th><th>آخر تواصل</th><th></th></tr></thead><tbody>${L.map(c=>{const n=c.last?ago(c.last):null,s=ST[c.stage],h=CH[c.channel]||CH.ref;return`<tr data-a="view" data-id="${c.id}"><td><b>${esc(c.name)}</b>${c.note?`<div class="note">${esc(c.note)}</div>`:""}</td><td class="ct">${c.contact?`<span dir="auto" title="${esc(c.contact)}">${esc(short(c.contact))}</span>`:'<span class="sub">لا يوجد</span>'}</td><td><span class="chn"><i style="background:${h.c}"></i>${h.n}</span></td><td><select class="stg" data-a="setstage" data-id="${c.id}" style="--sc:${s[1]}">${ST.map((x,i)=>`<option value="${i}" ${i===c.stage?"selected":""}>${x[0]}</option>`).join("")}</select></td><td class="${c.stage<3&&ago(ref(c))>=3?"late":""}">${n===null?"لم يُسجَّل":agoTxt(n)}</td><td class="acts"><button class="sm${n===0?" done":""}" data-a="touch" data-id="${c.id}" title="يحدّث تاريخ آخر تواصل إلى اليوم، واضغط ثانية للتراجع">${n===0?"تم اليوم ✓":"تواصلت معه"}</button>${c.stage<4?`<button class="sm" data-a="next" data-id="${c.id}">التالي</button>`:""}<button class="sm ghost" data-a="edit" data-id="${c.id}">تعديل</button></td></tr>`}).join("")}</tbody></table>`;
+ return`<table><thead><tr><th>العميل</th><th>طريقة التواصل</th><th>القناة</th><th>المرحلة</th><th>آخر تواصل</th><th></th></tr></thead><tbody>${L.map(c=>{const n=c.last?ago(c.last):null,s=ST[c.stage],h=CH[c.channel]||CH.ref;return`<tr data-a="view" data-id="${c.id}"><td><div class="nm">${av(c)}<div class="nt"><b>${esc(c.name)}</b>${c.note?`<div class="note">${esc(c.note)}</div>`:""}</div></div></td><td class="ct">${c.contact?`<span dir="auto" title="${esc(c.contact)}">${esc(short(c.contact))}</span>`:'<span class="sub">لا يوجد</span>'}</td><td><span class="chn"><i style="background:${h.c}"></i>${h.n}</span></td><td><select class="stg" data-a="setstage" data-id="${c.id}" style="--sc:${s[1]}">${ST.map((x,i)=>`<option value="${i}" ${i===c.stage?"selected":""}>${x[0]}</option>`).join("")}</select></td><td class="${c.stage>0&&c.stage<4&&ago(ref(c))>=3?"late":""}">${n===null?"لم يُسجَّل":agoTxt(n)}</td><td class="acts">${c.stage<6?`<button class="sm${n===0?" done":""}" data-a="touch" data-id="${c.id}" title="يحدّث تاريخ آخر تواصل إلى اليوم، واضغط ثانية للتراجع">${n===0?"تم اليوم ✓":"تواصلت معه"}</button>`:""}${c.stage<5?`<button class="sm" data-a="next" data-id="${c.id}">التالي</button>`:""}<button class="sm ghost" data-a="edit" data-id="${c.id}">تعديل</button></td></tr>`}).join("")}</tbody></table>`;
 }
 function clients(){
  const cnt=i=>S.clients.filter(c=>c.stage===i).length;
  return head("العملاء","حدّث مرحلة العميل عند كل رد، ودوّن أين وصلت معه.",'<button class="btn" data-a="add">إضافة عميل</button>')+
  `<div class="tools"><input class="in" id="q" placeholder="ابحث بالاسم" value="${esc(f.q)}"><select class="in" id="fch"><option value="all">كل القنوات</option>${Object.entries(CH).map(([k,v])=>`<option value="${k}" ${f.ch===k?"selected":""}>${v.n}</option>`).join("")}</select><label class="sw"><input type="checkbox" id="arch" ${f.arch?"checked":""}><span>إظهار المؤرشفة</span></label></div>
- <div class="chips"><button class="chip ${f.stage==="all"?"on":""}" data-a="chip" data-s="all">الكل ${S.clients.filter(c=>f.arch||c.stage!==5).length}</button>${ST.map((s,i)=>`<button class="chip ${f.stage===i?"on":""}" data-a="chip" data-s="${i}">${s[0]} ${cnt(i)}</button>`).join("")}</div>
+ <div class="chips"><button class="chip ${f.stage==="all"?"on":""}" data-a="chip" data-s="all">الكل ${S.clients.filter(c=>f.arch||c.stage!==6).length}</button>${ST.map((s,i)=>`<button class="chip ${f.stage===i?"on":""}" data-a="chip" data-s="${i}">${s[0]} ${cnt(i)}</button>`).join("")}</div>
  <div class="card tw" id="tbl">${tbl()}</div>`;
 }
 
@@ -243,18 +267,36 @@ function render(){
  const n=S.ideas.length;$("#bd").textContent=n;$("#bd").hidden=!n;
 }
 const commit=()=>{save();render()};
+const av=(c,z)=>c.img?`<img class="av ${z||""}" src="${esc(c.img)}" alt="">`:`<span class="av ${z||""}"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="15.5" r="7"/><path d="M5 40c0-9 6-14.5 15-14.5S35 31 35 40z"/></svg></span>`;
+const ap=()=>{$("#ap").innerHTML=av({img:formImg},"lg");$("#rm").hidden=!formImg};
+function pic(file){
+ if(!file||!file.type.startsWith("image/"))return;
+ const r=new FileReader();
+ r.onload=()=>{const im=new Image();im.onload=()=>{const s=Math.min(im.width,im.height),z=160,cv=document.createElement("canvas");cv.width=cv.height=z;cv.getContext("2d").drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,z,z);formImg=cv.toDataURL("image/webp",.85);ap()};im.src=r.result};
+ r.readAsDataURL(file);
+}
+const nn=s=>(s||"").toLowerCase().replace(/[\u064B-\u065F\u0640]/g,"").replace(/[أإآ]/g,"ا").replace(/\s+/g," ").trim();
+const ph=s=>{const d=(s||"").replace(/[٠-٩]/g,x=>"٠١٢٣٤٥٦٧٨٩".indexOf(x)).replace(/\D/g,"");return d.length>=7?d.slice(-9):""};
+const lk=s=>(s||"").toLowerCase().trim().replace(/^https?:\/\/(www\.)?/,"").replace(/\/+$/,"");
+const dup=v=>{for(const c of S.clients){const n=nn(c.name)===nn(v.name),t=!!v.contact&&(lk(v.contact)===lk(c.contact)||(ph(v.contact)!==""&&ph(v.contact)===ph(c.contact)));if(n||t)return{c,why:n&&t?"الاسم ووسيلة التواصل":n?"الاسم":"وسيلة التواصل"}}return null};
+const addClient=v=>S.clients.unshift({id:uid(),created:today(),last:"",...v});
+function showDup(m){
+ const c=m.c,s=ST[c.stage];
+ $("#db").innerHTML=`<div class="nm">${av(c,"lg")}<div class="nt"><b>${esc(c.name)}</b><div class="sub">${s[0]}${c.last?"، آخر تواصل: "+agoTxt(ago(c.last)):""}</div></div></div><p class="mut" style="margin:12px 0 0">التطابق في: ${m.why}</p>`;
+ $("#dd").showModal();
+}
 const nav=o=>{$(".side").classList.toggle("open",o);$("#scrim").classList.toggle("on",o)};
 const ref=c=>c.last||c.created||today();
-const mark=c=>{if(c.last!==today()){c.prev=c.last||"";c.last=today()}};
+const mark=c=>{delete c.pst;delete c.top;if(c.last!==today()){c.prev=c.last||"";c.last=today()}};
 const short=s=>{s=s||"";if(/^[\w.+-]+@[\w-]+\.[\w.]+$/.test(s)||/^[\d+\s()-]+$/.test(s))return s;try{const u=new URL(/^https?:\/\//i.test(s)?s:"https://"+s);if(u.hostname.includes(".")&&!/\s/.test(s)){const p=u.pathname.replace(/\/$/,"");return u.hostname.replace(/^www\./,"")+(p?"/…":"")}}catch(e){}return s.length>20?s.slice(0,20)+"…":s};
 const resetIdea=()=>{editIdea=null;$("#it").value="";$("#sv").textContent="حفظ الاقتراح"};
 const eff=()=>document.documentElement.dataset.theme||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
-const tlab=()=>{$("#tl").textContent=eff()==="dark"?"الوضع الفاتح":"الوضع الداكن"};
+const tlab=()=>{$("#tl").textContent=eff()==="dark"?"الوضع الفاتح":"الوضع الداكن";$("#tc").content=eff()==="dark"?"#0F131A":"#17996A"};
 const theme=t=>{document.documentElement.dataset.theme=t;S.theme=t;save();tlab()};
 function openV(id){
  const c=S.clients.find(x=>x.id===id);if(!c)return;viewId=id;
  const h=CH[c.channel]||CH.ref,s=ST[c.stage],u=/^https?:\/\//i.test(c.contact||"");
- $("#vn").textContent=c.name;
+ $("#vn").innerHTML=`<span class="vh">${av(c,"xl")}<span>${esc(c.name)}</span></span>`;
  $("#vb").innerHTML=`<p class="vm"><span class="chn"><i style="background:${h.c}"></i>${h.n}</span><span class="pill" style="--sc:${s[1]}">${s[0]}</span><span>آخر تواصل: ${c.last?agoTxt(ago(c.last)):"لم يُسجَّل"}</span></p><h3>الملاحظات</h3><p class="vt">${c.note?esc(c.note):"لا توجد ملاحظات."}</p><h3>طريقة التواصل</h3><p class="vt" dir="auto">${c.contact?(u?`<a href="${esc(c.contact)}" target="_blank" rel="noopener noreferrer">${esc(c.contact)}</a>`:esc(c.contact)):"لم تُسجَّل."}</p>`;
  $("#vd").showModal();
 }
@@ -264,6 +306,7 @@ function openC(id){
  const c=id?S.clients.find(x=>x.id===id):{name:"",channel:"maps",stage:0,contact:"",note:""},F=$("#cf").elements;
  $("#ct").textContent=id?"تعديل العميل":"إضافة عميل";
  for(const k of["name","channel","stage","contact","note"])F[k].value=c[k];
+ formImg=c.img||"";ap();
  const b=$("#del");b.hidden=!id;b.textContent="حذف";delete b.dataset.armed;
  $("#cd").showModal();F.name.focus();
 }
@@ -279,10 +322,10 @@ async function copyIdeas(){
 document.addEventListener("click",e=>{
  const t=e.target.closest("[data-a]");if(!t)return;
  const a=t.dataset.a,id=t.dataset.id,c=id&&S.clients.find(x=>x.id===id);
- if(a==="go"){view=t.dataset.v;nav(false);render();window.scrollTo(0,0)}
+ if(a==="go"){view=t.dataset.v;nav(false);render();history.replaceState(null,"","#"+view);window.scrollTo(0,0)}
  else if(a==="add")openC();
  else if(a==="edit")openC(id);
- else if(a==="touch"&&c){if(c.last===today()){c.last=c.prev||"";delete c.prev}else mark(c);commit()}
+ else if(a==="touch"&&c){if(c.last===today()){c.last=c.prev||"";delete c.prev;if(c.pst!=null){c.stage=c.pst;delete c.pst}}else{mark(c);if(c.stage===0){c.pst=0;c.stage=1}}commit()}
  else if(a==="next"&&c){c.stage++;mark(c);commit()}
  else if(a==="chip"){f.stage=t.dataset.s==="all"?"all":+t.dataset.s;render()}
  else if(a==="chk"){const d=S.done[today()]=S.done[today()]||{};d[id]=!d[id];commit()}
@@ -295,8 +338,13 @@ document.addEventListener("click",e=>{
  else if(a==="view")openV(id);
  else if(a==="vedit"){$("#vd").close();openC(viewId)}
  else if(a==="theme")theme(eff()==="dark"?"light":"dark");
+ else if(a==="install"&&installEvt){const p=installEvt;installEvt=null;$("#inst").hidden=true;p.prompt();p.userChoice.catch(()=>{})}
  else if(a==="menu")nav(true);
  else if(a==="menuclose")nav(false);
+ else if(a==="pickimg")$("#pf").click();
+ else if(a==="rmimg"){formImg="";ap()}
+ else if(a==="dupadd"){addClient(pend.v);$("#dd").close();$("#cd").close();commit()}
+ else if(a==="dupreact"){const d=S.clients.find(x=>x.id===pend.d),v=pend.v;if(d){if(d.stage>=5)d.stage=v.stage<5?v.stage:0;for(const k of["contact","note","img"])if(!d[k]&&v[k])d[k]=v[k];d.top=Date.now();f.stage="all";f.ch="all";f.q=""}$("#dd").close();$("#cd").close();commit()}
  else if(a==="close")t.closest("dialog").close();
  else if(a==="del"){
   if(t.dataset.armed){S.clients=S.clients.filter(x=>x.id!==editId);commit();$("#cd").close()}
@@ -308,6 +356,7 @@ document.addEventListener("change",e=>{
  if(t.dataset.a==="setstage"){const c=S.clients.find(x=>x.id===t.dataset.id);c.stage=+t.value;mark(c);commit()}
  else if(t.id==="fch"){f.ch=t.value;render()}
  else if(t.id==="arch"){f.arch=t.checked;render()}
+ else if(t.id==="pf"){pic(t.files[0]);t.value=""}
 });
 document.addEventListener("input",e=>{if(e.target.id==="q"){f.q=e.target.value;$("#tbl").innerHTML=tbl()}});
 document.addEventListener("keydown",e=>{
@@ -318,18 +367,24 @@ document.addEventListener("keydown",e=>{
 });
 $("#cf").addEventListener("submit",e=>{
  e.preventDefault();
- const d=new FormData(e.target),v={name:d.get("name").trim(),channel:d.get("channel"),stage:+d.get("stage"),contact:d.get("contact").trim(),note:d.get("note").trim()};
+ const d=new FormData(e.target),v={name:d.get("name").trim(),channel:d.get("channel"),stage:+d.get("stage"),contact:d.get("contact").trim(),note:d.get("note").trim(),img:formImg};
  if(editId){const c=S.clients.find(x=>x.id===editId);if(c.stage!==v.stage)mark(c);Object.assign(c,v)}
- else S.clients.unshift({id:uid(),created:today(),last:"",...v});
+ else{const m=dup(v);if(m){pend={v,d:m.c.id};showDup(m);return}addClient(v)}
  commit();$("#cd").close();
 });
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&day!==today()){day=today();render()}});
+addEventListener("hashchange",()=>{const v=location.hash.slice(1);if(VIEWS.includes(v)&&v!==view){view=v;nav(false);render();window.scrollTo(0,0)}});
+const standalone=matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+addEventListener("beforeinstallprompt",e=>{e.preventDefault();installEvt=e;if(!standalone)$("#inst").hidden=false});
+addEventListener("appinstalled",()=>{installEvt=null;$("#inst").hidden=true});
+if(standalone)$("#inst").hidden=true;
+if("serviceWorker" in navigator&&/^https?:$/.test(location.protocol))navigator.serviceWorker.register("./sw.js").catch(()=>{});
 
 $("#cf").elements.channel.innerHTML=Object.entries(CH).map(([k,v])=>`<option value="${k}">${v.n}</option>`).join("");
 $("#cf").elements.stage.innerHTML=ST.map((s,i)=>`<option value="${i}">${s[0]}</option>`).join("");
-if(S.theme)document.documentElement.dataset.theme=S.theme;
+save();if(S.theme)document.documentElement.dataset.theme=S.theme;
 tlab();
-for(const id of["#sd","#vd"]){const d=$(id);d.addEventListener("click",e=>{if(e.target!==d)return;const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close()})}
+for(const id of["#sd","#vd","#dd"]){const d=$(id);d.addEventListener("click",e=>{if(e.target!==d)return;const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close()})}
 render();
 </script>
 </body>
