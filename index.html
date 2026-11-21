@@ -4,16 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>مسار — متابعة العملاء</title>
-<meta name="description" content="مسار — متابعة العملاء وجولة العمل اليومية. تطبيق قابل للتثبيت ويعمل دون اتصال.">
-<meta name="theme-color" content="#17996A" id="tc">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="مسار">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Crect width='36' height='36' rx='10' fill='%2317996A'/%3E%3Cpath d='M8 27c5 0 5-9 10-9s5-9 10-9' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='28' cy='9' r='4' fill='%23F7C873'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#F5F6F8;--card:#fff;--ink:#1A2130;--mut:#667085;--line:#E4E7EC;--soft:#F0F2F5;--btn:#1A2130;--btnt:#fff;--maps:#17996A;--groups:#1B8FB5;--brand:#D9822B;--ref:#7C5CE0;--warn:#B45F06;--danger:#D14343;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -112,6 +105,12 @@ dialog label .in{margin-top:5px;font-weight:400}
 .nm{display:flex;align-items:center;gap:12px}.nt{min-width:0}
 .avrow{display:flex;align-items:center;gap:10px;margin-bottom:14px}.avrow .btn{padding:6px 12px;font-size:13px}
 .vh{display:flex;align-items:center;gap:14px}
+.ex{max-width:720px}.ex h2{margin-top:4px}
+.rg{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:14px}
+.f{display:block;font-size:14px;font-weight:500}.f .in{margin-top:5px;font-weight:400}
+.cks{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:2px 12px;margin-bottom:16px}
+.ck{display:flex;align-items:center;gap:8px;font-size:14px;padding:4px 0;cursor:pointer}.ck input{accent-color:var(--ink)}
 .menu svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
 tbody tr{cursor:pointer}tbody tr:hover{background:var(--soft)}
 .ct span{display:inline-block;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:bottom}
@@ -169,8 +168,8 @@ td:first-child,.acts{flex:1 0 100%}
 <button class="nv" data-a="go" data-v="home"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>الرئيسية</button>
 <button class="nv" data-a="go" data-v="routine"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16 9.5"/></svg>جولة اليوم</button>
 <button class="nv" data-a="go" data-v="clients"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><path d="M16 4.7a3.5 3.5 0 0 1 0 6.6M18 14.8c2 .6 3.2 2.3 3.5 5.2"/></svg>العملاء</button>
+<button class="nv" data-a="go" data-v="report"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>تصدير البيانات</button>
 <button class="nv thm" data-a="theme"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg><span id="tl">الوضع الداكن</span></button>
-<button class="nv" id="inst" data-a="install" hidden><svg viewBox="0 0 24 24"><path d="M12 4v10"/><path d="M8 10l4 4 4-4"/><path d="M5 19h14"/></svg>تثبيت التطبيق</button>
 <button class="nv sug" data-a="sug"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>صندوق الاقتراحات<span class="bd" id="bd" hidden></span></button>
 </aside>
 <main class="main" id="main"></main>
@@ -217,11 +216,8 @@ const today=()=>iso(new Date());
 const ago=s=>Math.round((new Date(today()+"T00:00")-new Date(s+"T00:00"))/864e5);
 const agoTxt=n=>n<=0?"اليوم":n==1?"أمس":n==2?"قبل يومين":n<=10?`قبل ${n} أيام`:`قبل ${n} يومًا`;
 const dateTxt=()=>new Date().toLocaleDateString("ar-JO-u-nu-latn",{weekday:"long",day:"numeric",month:"long"});
-const prog=k=>{const t=S.tasks[k]||[],d=S.done[today()]||{};return[t.filter(x=>d[x.id]).length,t.length]};
+const prog=k=>{const t=(S.tasks[k]||[]).filter(z=>!z.x),d=S.done[today()]||{};return[t.filter(x=>d[x.id]).length,t.length]};
 let S=load(),view="home",f={stage:"all",ch:"all",q:"",arch:false},editId=null,editIdea=null,viewId=null,formImg="",pend=null,day=today();
-const VIEWS=["home","routine","clients"];
-if(VIEWS.includes(location.hash.slice(1)))view=location.hash.slice(1);
-let installEvt=null;
 
 const head=(t,s,x="")=>`<div class="ph"><div><h1>${t}</h1><p>${s}</p></div>${x}</div>`;
 
@@ -240,7 +236,7 @@ function home(){
 function routine(){
  const d=S.done[today()]||{};
  return head("جولة اليوم","مرّ على كل قناة وأنجز مهامها. تبدأ القائمة من جديد كل يوم.")+
- `<div class="grid">${["maps","groups","brand"].map(k=>{const t=S.tasks[k]||[],[a,b]=prog(k);return`<section class="card ch" style="--c:${CH[k].c}"><h2><i></i>${CH[k].n}<em>${b&&a===b?"اكتملت":a+"/"+b}</em></h2>${t.map(x=>`<div class="task"><label><input type="checkbox" data-a="chk" data-id="${x.id}" ${d[x.id]?"checked":""}><span>${esc(x.text)}</span></label><button class="x" data-a="deltask" data-k="${k}" data-id="${x.id}" aria-label="حذف المهمة">×</button></div>`).join("")}<input class="in add" data-k="${k}" maxlength="90" placeholder="أضف مهمة ثم اضغط Enter"></section>`}).join("")}</div>`;
+ `<div class="grid">${["maps","groups","brand"].map(k=>{const t=(S.tasks[k]||[]).filter(z=>!z.x),[a,b]=prog(k);return`<section class="card ch" style="--c:${CH[k].c}"><h2><i></i>${CH[k].n}<em>${b&&a===b?"اكتملت":a+"/"+b}</em></h2>${t.map(x=>`<div class="task"><label><input type="checkbox" data-a="chk" data-id="${x.id}" ${d[x.id]?"checked":""}><span>${esc(x.text)}</span></label><button class="x" data-a="deltask" data-k="${k}" data-id="${x.id}" aria-label="حذف المهمة">×</button></div>`).join("")}<input class="in add" data-k="${k}" maxlength="90" placeholder="أضف مهمة ثم اضغط Enter"></section>`}).join("")}</div>`;
 }
 
 function list(){
@@ -262,11 +258,110 @@ function clients(){
 }
 
 function render(){
- $("#main").innerHTML=({home,routine,clients})[view]();
+ $("#main").innerHTML=({home,routine,clients,report})[view]();
  document.querySelectorAll(".nv[data-v]").forEach(b=>b.setAttribute("aria-current",b.dataset.v===view?"page":"false"));
  const n=S.ideas.length;$("#bd").textContent=n;$("#bd").hidden=!n;
 }
 const commit=()=>{save();render()};
+const pad=n=>String(n).padStart(2,"0");
+const now=()=>{const d=new Date();return iso(d)+"T"+pad(d.getHours())+":"+pad(d.getMinutes())+":"+pad(d.getSeconds())};
+const lg=(k,o)=>{(S.log=S.log||[]).push({t:now(),k,...o})};
+const setSt=(c,to,h)=>{const f0=c.stage;c.stage=to;if(mark(c))lg("ct",{c:c.id,n:c.name,on:1,st:f0,h:"stage"});lg("cs",{c:c.id,n:c.name,f:f0,to,h})};
+const ft=id=>{for(const k in S.tasks){const x=S.tasks[k].find(y=>y.id===id);if(x)return{...x,ch:k}}return{}};
+const WD=["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
+const DS=[["cl","العملاء","حالة كل عميل الآن، مع تاريخ أول وصول لكل مرحلة وعدد التواصلات والتغييرات."],["sg","تغييرات_المراحل","كل انتقال بين المراحل بتاريخه ووقته وطريقته والمدة منذ الانتقال السابق."],["ct","سجل_التواصل","كل تسجيل تواصل أو تراجع عنه، بتاريخه ووقته والمرحلة وقتها."],["rt","الجولة_اليومية","لكل يوم نشط: كل مهمة وهل أُنجزت ووقت التأشير."],["sm","ملخص_الجولة","لكل يوم نشط ولكل قناة: عدد المهام والمنجز والنسبة."],["tk","المهام","مهام الجولة مع تاريخ إضافة كل مهمة وحذفها."],["id","الاقتراحات","نصوص صندوق الاقتراحات وتاريخ كل منها."],["ev","سجل_الأحداث","السجل الزمني الكامل لكل ما سُجّل، سطراً بسطر."]];
+const EV={ca:"إضافة عميل",cs:"تغيير مرحلة",ct:"تسجيل تواصل",ce:"تعديل بيانات عميل",cd:"حذف عميل",cr:"إعادة عميل إلى القائمة النشطة",tc:"تأشير مهمة",ta:"إضافة مهمة",td:"حذف مهمة",ia:"إضافة اقتراح",ie:"تعديل اقتراح",id:"حذف اقتراح"};
+const HW={manual:"يدوي من الجدول",next:"زر التالي",touch:"زر تواصلت معه",undo:"تراجع عن زر تواصلت معه",edit:"من نافذة التعديل",reactivate:"إعادة تفعيل بعد تنبيه التكرار"};
+const FN={name:"الاسم",channel:"القناة",contact:"وسيلة التواصل",note:"الملاحظات"};
+let E={all:true,from:"",to:"",stage:"all",ch:"all",fmt:"xlsx",sets:Object.fromEntries(DS.map(d=>[d[0],true]))};
+const eo=()=>({all:E.all,from:E.from,to:E.to,stage:E.stage,ch:E.ch,sets:E.sets});
+const wd=d=>WD[new Date(d+"T00:00").getDay()];
+const dOf=t=>t.slice(0,10);
+const chn=k=>(CH[k]||{n:k||""}).n;
+function build(o){
+ const L=S.log||[],all=o.all,rg=d=>all||((!o.from||d>=o.from)&&(!o.to||d<=o.to));
+ const flt=!all&&(o.stage!=="all"||o.ch!=="all");
+ const cm=c=>!flt||((o.stage==="all"||c.stage===o.stage)&&(o.ch==="all"||c.channel===o.ch));
+ const cn=id=>S.clients.find(x=>x.id===id)||{};
+ const ids=new Set(S.clients.filter(cm).map(c=>c.id));
+ const T=e=>[dOf(e.t),e.t.slice(11,19),wd(dOf(e.t)),+e.t.slice(11,13)];
+ const okE=e=>{if(!rg(dOf(e.t)))return false;if(e.k[0]==="c"&&flt)return ids.has(e.c);if(e.k[0]==="t"&&!all&&o.ch!=="all")return e.ch===o.ch;return true};
+ const first=L.length?dOf(L[0].t):"9999-99-99";
+ const fr={},nc={},ns={},hl=new Set();
+ const mk=(id,s,d)=>{const m=fr[id]=fr[id]||{};if(m[s]==null)m[s]=d};
+ for(const e of L){if(e.k==="ca"){hl.add(e.c);mk(e.c,e.st,dOf(e.t))}else if(e.k==="cs"||e.k==="cr"){mk(e.c,e.to,dOf(e.t));if(e.f!==e.to)ns[e.c]=(ns[e.c]||0)+1}else if(e.k==="ct"&&e.on)nc[e.c]=(nc[e.c]||0)+1}
+ const sheets=[],add=(k,h,r)=>{if(all||o.sets[k]){const d=DS.find(z=>z[0]===k);sheets.push({n:d[1],desc:d[2],h,r})}};
+ const inC=c=>all||(!o.from&&!o.to)||(c.created&&rg(c.created))||(c.last&&rg(c.last))||L.some(e=>e.c===c.id&&rg(dOf(e.t)));
+ add("cl",["معرف_العميل","الاسم","القناة","وسيلة_التواصل","المرحلة_الحالية","رمز_المرحلة","الملاحظات","تاريخ_الإضافة","وقت_الإضافة","آخر_تواصل","الأيام_منذ_آخر_تواصل","عدد_تسجيلات_التواصل","عدد_تغييرات_المرحلة",...ST.map(s=>"أول_وصول_"+s[0].replace(/ /g,"_")),"صورة","السجل_كامل","مؤرشف"],
+  S.clients.filter(c=>cm(c)&&inC(c)).map(c=>{const m=fr[c.id]||{};return[c.id,c.name,chn(c.channel),c.contact||"",ST[c.stage][0],c.stage,c.note||"",c.created||"",c.cat?c.cat.slice(11,19):"",c.last||"",c.last?ago(c.last):"",nc[c.id]||0,ns[c.id]||0,...ST.map((s,i)=>m[i]||""),c.img?"نعم":"لا",hl.has(c.id)?"نعم":"لا (قبل بدء التسجيل)",c.stage===6?"نعم":"لا"]}));
+ const rS=[],pv={};
+ for(const e of L){if(!["ca","cs","cr"].includes(e.k)||(e.k==="cr"&&e.f===e.to))continue;const p=pv[e.c];pv[e.c]=e.t;if(!okE(e))continue;const a=e.k==="ca";rS.push([...T(e),e.c,e.n,chn(cn(e.c).channel||e.ch),a?"":ST[e.f][0],ST[a?e.st:e.to][0],a?(e.dp?"إضافة رغم تنبيه التكرار":"إضافة عميل"):e.k==="cr"?HW.reactivate:(HW[e.h]||e.h),p?Math.round((new Date(e.t)-new Date(p))/864e4)/10:""])}
+ add("sg",["التاريخ","الوقت","اليوم","الساعة","معرف_العميل","العميل","القناة","من_مرحلة","إلى_مرحلة","طريقة_التغيير","الأيام_منذ_التغيير_السابق"],rS);
+ add("ct",["التاريخ","الوقت","اليوم","الساعة","معرف_العميل","العميل","القناة","المرحلة_وقتها","الإجراء","المصدر"],L.filter(e=>e.k==="ct"&&okE(e)).map(e=>[...T(e),e.c,e.n,chn(cn(e.c).channel),ST[e.st][0],e.on?"تسجيل":"تراجع",e.h==="stage"?"تلقائي مع تغيير المرحلة":"زر تواصلت معه"]));
+ const tasks=[];for(const k in S.tasks)for(const x of S.tasks[k])tasks.push({...x,ch:k});
+ const tick={};for(const e of L)if(e.k==="tc"&&e.on)tick[dOf(e.t)+"|"+e.i]=e.t.slice(11,19);
+ const days=[...new Set([...Object.keys(S.done),...L.map(e=>dOf(e.t))])].filter(d=>rg(d)).sort();
+ const rR=[];
+ for(const d of days){const dn=S.done[d]||{},est=d<first?"تقديرية (قبل بدء التسجيل)":"مسجّلة";
+  for(const x of tasks){if((x.at&&x.at>d)||(x.x&&x.x<d))continue;if(!all&&o.ch!=="all"&&x.ch!==o.ch)continue;rR.push([d,wd(d),chn(x.ch),x.id,x.text,dn[x.id]?"تم":"لم يتم",(dn[x.id]&&tick[d+"|"+x.id])||"",est])}
+  if(all||o.ch==="all")for(const id in dn)if(dn[id]&&!tasks.some(x=>x.id===id))rR.push([d,wd(d),"غير معروفة",id,"(مهمة حُذفت قبل بدء التسجيل)","تم","",est])}
+ add("rt",["التاريخ","اليوم","القناة","معرف_المهمة","المهمة","الحالة","وقت_التأشير","دقة_قائمة_اليوم"],rR);
+ const sm={};for(const r of rR){const k=r[0]+"|"+r[2],s=sm[k]=sm[k]||[r[0],r[1],r[2],0,0];s[3]++;if(r[5]==="تم")s[4]++}
+ add("sm",["التاريخ","اليوم","القناة","عدد_المهام","المنجز","النسبة_المئوية"],Object.values(sm).map(s=>[...s,s[3]?Math.round(s[4]/s[3]*100):0]));
+ const alive=x=>all||((!o.to||!x.at||x.at<=o.to)&&(!o.from||!x.x||x.x>=o.from));
+ add("tk",["معرف_المهمة","القناة","المهمة","تاريخ_الإضافة","تاريخ_الحذف","نشطة_الآن"],tasks.filter(x=>alive(x)&&(all||o.ch==="all"||x.ch===o.ch)).map(x=>[x.id,chn(x.ch),x.text,x.at||"قبل بدء التسجيل",x.x||"",x.x?"لا":"نعم"]));
+ const ie={};for(const e of L)if(e.k==="ie")ie[e.i]=(ie[e.i]||0)+1;
+ add("id",["التاريخ","الوقت","معرف_الاقتراح","النص","عدد_التعديلات"],S.ideas.filter(x=>rg(iso(new Date(x.at)))).map(x=>{const t=new Date(x.at);return[iso(t),pad(t.getHours())+":"+pad(t.getMinutes())+":"+pad(t.getSeconds()),x.id,x.text,ie[x.id]||0]}));
+ const det=e=>{switch(e.k){
+  case"ca":return"المرحلة: "+ST[e.st][0]+" | القناة: "+chn(e.ch)+(e.dp?" | أُضيف رغم تنبيه التكرار":"");
+  case"cs":return"من "+ST[e.f][0]+" إلى "+ST[e.to][0]+" ("+(HW[e.h]||e.h)+")";
+  case"ct":return(e.on?"تسجيل":"تراجع")+(e.h==="stage"?" تلقائي":"")+" | المرحلة: "+ST[e.st][0];
+  case"ce":return(e.d||[]).map(([k,a,b])=>k==="img"?"تغيّرت الصورة":FN[k]+": "+(k==="channel"?chn(a):a)+" إلى "+(k==="channel"?chn(b):b)).join(" | ");
+  case"cd":return"المرحلة: "+ST[e.s.stage][0]+" | القناة: "+chn(e.s.channel)+" | وسيلة التواصل: "+(e.s.contact||"")+" | الملاحظات: "+(e.s.note||"");
+  case"cr":return"من "+ST[e.f][0]+" إلى "+ST[e.to][0]+((e.d||[]).length?" | أُضيف: "+e.d.map(z=>FN[z[0]]||"الصورة").join("، "):"");
+  case"tc":return e.on?"تم التأشير":"أُلغي التأشير";
+  case"ie":return"النص السابق: "+e.o;
+  default:return""}};
+ add("ev",["التاريخ","الوقت","اليوم","الساعة","رمز_الحدث","الحدث","نوع_الكيان","المعرف","الاسم_أو_النص","القناة","التفاصيل"],L.filter(okE).map(e=>{const z=e.k[0];return[...T(e),e.k,EV[e.k],z==="c"?"عميل":z==="t"?"مهمة":"اقتراح",e.c||e.i,e.n||e.x||"",z==="c"?chn(cn(e.c).channel||(e.s&&e.s.channel)||e.ch):z==="t"?chn(e.ch):"",det(e)]}));
+ const ds=[...Object.keys(S.done),...L.map(e=>dOf(e.t)),...S.clients.map(c=>c.created).filter(Boolean),...S.ideas.map(x=>iso(new Date(x.at)))].sort();
+ const g=[["تاريخ_التصدير",today()+" "+now().slice(11)],["أول_تاريخ_في_البيانات",ds[0]||"لا توجد بيانات"],["آخر_تاريخ_في_البيانات",ds[ds.length-1]||""],["نطاق_التصدير",all?"كل البيانات بلا فلاتر":"مخصص: من "+(o.from||"البداية")+" إلى "+(o.to||"النهاية")+" | المرحلة: "+(o.stage==="all"?"الكل":ST[o.stage][0])+" | القناة: "+(o.ch==="all"?"الكل":chn(o.ch))],["بدء_السجل_التفصيلي",L.length?dOf(L[0].t):"لم يبدأ بعد"],...sheets.map(s=>["ورقة: "+s.n,s.desc+" (عدد الصفوف: "+s.r.length+")"]),["ملاحظة_1","الأيام التي لم يُسجَّل فيها أي نشاط لا تظهر في أي ورقة."],["ملاحظة_2","التواريخ والأوقات بتوقيت جهازك. السجل التفصيلي (المراحل والتواصل والأحداث) يبدأ من تاريخ بدء السجل أعلاه؛ وقبله تُستنتج الأيام من التأشيرات المحفوظة وتُوسم قوائم المهام فيها بأنها تقديرية."],["ملاحظة_3","الصور غير مضمّنة في Excel ويُشار إليها بعمود صورة فقط."],["ملاحظة_4","عند فلترة المرحلة أو القناة تُستبعد أحداث العملاء المحذوفين."]];
+ return[{n:"دليل",h:["البند","القيمة"],r:g},...sheets];
+}
+const sumTxt=()=>build(eo()).slice(1).map(d=>d.n.replace(/_/g," ")+": "+d.r.length).join(" · ")||"لا توجد أوراق محددة";
+function report(){
+ return head("تصدير البيانات","نزّل بياناتك كاملة أو جزءاً محدداً منها لتحليلها لاحقاً.")+
+ `<div class="card ex"><h2>نطاق التصدير</h2>
+ <div class="rg"><button class="chip ${E.all?"on":""}" data-a="escope" data-v="all">كل البيانات</button><button class="chip ${E.all?"":"on"}" data-a="escope" data-v="custom">تخصيص</button></div>
+ <div ${E.all?"hidden":""}>
+  <div class="rg"><button class="chip" data-a="erange" data-d="7">آخر 7 أيام</button><button class="chip" data-a="erange" data-d="30">آخر 30 يوماً</button><button class="chip" data-a="erange" data-d="0">كل الفترة</button></div>
+  <div class="row"><label class="f">من تاريخ<input type="date" class="in" data-e="from" value="${E.from}"></label><label class="f">إلى تاريخ<input type="date" class="in" data-e="to" value="${E.to}"></label></div>
+  <div class="row"><label class="f">مرحلة العميل<select class="in" data-e="stage"><option value="all">كل المراحل</option>${ST.map((s,i)=>`<option value="${i}" ${E.stage===i?"selected":""}>${s[0]}</option>`).join("")}</select></label><label class="f">القناة<select class="in" data-e="ch"><option value="all">كل القنوات</option>${Object.entries(CH).map(([k,v])=>`<option value="${k}" ${E.ch===k?"selected":""}>${v.n}</option>`).join("")}</select></label></div>
+  <h2>الأوراق المطلوبة</h2><div class="cks">${DS.map(d=>`<label class="ck"><input type="checkbox" data-e="set" data-k="${d[0]}" ${E.sets[d[0]]?"checked":""}>${d[1].replace(/_/g," ")}</label>`).join("")}</div>
+ </div>
+ <h2>الصيغة</h2><div class="row"><select class="in" data-e="fmt"><option value="xlsx" ${E.fmt==="xlsx"?"selected":""}>Excel: ملف واحد بأوراق متعددة</option><option value="json" ${E.fmt==="json"?"selected":""}>JSON: نص</option></select></div>
+ <p class="mut" id="esum" style="margin:0 0 14px">${sumTxt()}</p>
+ <button class="btn" data-a="export">تنزيل الملف</button> <span class="mut" id="emsg"></span></div>`;
+}
+async function doExport(){
+ const m=$("#emsg");m.textContent="";
+ const D=build(eo());
+ if(D.length<2){m.textContent="اختر ورقة واحدة على الأقل.";return}
+ const base="masar-"+today()+(E.all?"":"-custom");let data,fn;
+ if(E.fmt==="xlsx"){
+  if(!window.XLSX){m.textContent="تعذّر تحميل مكتبة Excel، جرّب صيغة JSON.";return}
+  const wb=XLSX.utils.book_new();wb.Workbook={Views:[{RTL:true}]};
+  for(const d of D){const ws=XLSX.utils.aoa_to_sheet([d.h,...d.r]);ws["!cols"]=d.h.map(h=>({wch:Math.max(12,Math.min(45,h.length+6))}));ws["!autofilter"]={ref:ws["!ref"]};XLSX.utils.book_append_sheet(wb,ws,d.n)}
+  data=XLSX.write(wb,{bookType:"xlsx",type:"array"});fn=base+".xlsx";
+ }else{
+  const obj={};for(const d of D)obj[d.n]=d.r.map(r=>Object.fromEntries(d.h.map((h,i)=>[h,r[i]])));
+  if(E.all)obj["البيانات_الخام"]=S;
+  data=JSON.stringify(obj,null,1);fn=base+".json";
+ }
+ try{const dl=window.claude&&window.claude.use?await window.claude.use("downloads"):null;
+  if(!dl){m.textContent="التنزيل غير متاح في هذا العرض، افتح الصفحة من claude.ai.";return}
+  const r=await dl.save({filename:fn,data});m.textContent=r.status==="saved"?"تم حفظ الملف.":"تم تسليم الملف."}
+ catch(e){m.textContent=e&&e.code==="declined"?"أُلغي التنزيل.":"تعذّر التنزيل."}
+}
 const av=(c,z)=>c.img?`<img class="av ${z||""}" src="${esc(c.img)}" alt="">`:`<span class="av ${z||""}"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="15.5" r="7"/><path d="M5 40c0-9 6-14.5 15-14.5S35 31 35 40z"/></svg></span>`;
 const ap=()=>{$("#ap").innerHTML=av({img:formImg},"lg");$("#rm").hidden=!formImg};
 function pic(file){
@@ -279,7 +374,7 @@ const nn=s=>(s||"").toLowerCase().replace(/[\u064B-\u065F\u0640]/g,"").replace(/
 const ph=s=>{const d=(s||"").replace(/[٠-٩]/g,x=>"٠١٢٣٤٥٦٧٨٩".indexOf(x)).replace(/\D/g,"");return d.length>=7?d.slice(-9):""};
 const lk=s=>(s||"").toLowerCase().trim().replace(/^https?:\/\/(www\.)?/,"").replace(/\/+$/,"");
 const dup=v=>{for(const c of S.clients){const n=nn(c.name)===nn(v.name),t=!!v.contact&&(lk(v.contact)===lk(c.contact)||(ph(v.contact)!==""&&ph(v.contact)===ph(c.contact)));if(n||t)return{c,why:n&&t?"الاسم ووسيلة التواصل":n?"الاسم":"وسيلة التواصل"}}return null};
-const addClient=v=>S.clients.unshift({id:uid(),created:today(),last:"",...v});
+const addClient=(v,dp)=>{const c={id:uid(),created:today(),cat:now(),last:"",...v};S.clients.unshift(c);lg("ca",{c:c.id,n:c.name,ch:c.channel,st:c.stage,dp:dp?1:0})};
 function showDup(m){
  const c=m.c,s=ST[c.stage];
  $("#db").innerHTML=`<div class="nm">${av(c,"lg")}<div class="nt"><b>${esc(c.name)}</b><div class="sub">${s[0]}${c.last?"، آخر تواصل: "+agoTxt(ago(c.last)):""}</div></div></div><p class="mut" style="margin:12px 0 0">التطابق في: ${m.why}</p>`;
@@ -287,11 +382,11 @@ function showDup(m){
 }
 const nav=o=>{$(".side").classList.toggle("open",o);$("#scrim").classList.toggle("on",o)};
 const ref=c=>c.last||c.created||today();
-const mark=c=>{delete c.pst;delete c.top;if(c.last!==today()){c.prev=c.last||"";c.last=today()}};
+const mark=c=>{delete c.pst;delete c.top;if(c.last!==today()){c.prev=c.last||"";c.last=today();return 1}};
 const short=s=>{s=s||"";if(/^[\w.+-]+@[\w-]+\.[\w.]+$/.test(s)||/^[\d+\s()-]+$/.test(s))return s;try{const u=new URL(/^https?:\/\//i.test(s)?s:"https://"+s);if(u.hostname.includes(".")&&!/\s/.test(s)){const p=u.pathname.replace(/\/$/,"");return u.hostname.replace(/^www\./,"")+(p?"/…":"")}}catch(e){}return s.length>20?s.slice(0,20)+"…":s};
 const resetIdea=()=>{editIdea=null;$("#it").value="";$("#sv").textContent="حفظ الاقتراح"};
 const eff=()=>document.documentElement.dataset.theme||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
-const tlab=()=>{$("#tl").textContent=eff()==="dark"?"الوضع الفاتح":"الوضع الداكن";$("#tc").content=eff()==="dark"?"#0F131A":"#17996A"};
+const tlab=()=>{$("#tl").textContent=eff()==="dark"?"الوضع الفاتح":"الوضع الداكن"};
 const theme=t=>{document.documentElement.dataset.theme=t;S.theme=t;save();tlab()};
 function openV(id){
  const c=S.clients.find(x=>x.id===id);if(!c)return;viewId=id;
@@ -322,63 +417,60 @@ async function copyIdeas(){
 document.addEventListener("click",e=>{
  const t=e.target.closest("[data-a]");if(!t)return;
  const a=t.dataset.a,id=t.dataset.id,c=id&&S.clients.find(x=>x.id===id);
- if(a==="go"){view=t.dataset.v;nav(false);render();history.replaceState(null,"","#"+view);window.scrollTo(0,0)}
+ if(a==="go"){view=t.dataset.v;nav(false);render();window.scrollTo(0,0)}
  else if(a==="add")openC();
  else if(a==="edit")openC(id);
- else if(a==="touch"&&c){if(c.last===today()){c.last=c.prev||"";delete c.prev;if(c.pst!=null){c.stage=c.pst;delete c.pst}}else{mark(c);if(c.stage===0){c.pst=0;c.stage=1}}commit()}
- else if(a==="next"&&c){c.stage++;mark(c);commit()}
+ else if(a==="touch"&&c){const st0=c.stage;let on=1;if(c.last===today()){on=0;c.last=c.prev||"";delete c.prev;if(c.pst!=null){c.stage=c.pst;delete c.pst}}else{mark(c);if(c.stage===0){c.pst=0;c.stage=1}}lg("ct",{c:c.id,n:c.name,on,st:st0});if(c.stage!==st0)lg("cs",{c:c.id,n:c.name,f:st0,to:c.stage,h:on?"touch":"undo"});commit()}
+ else if(a==="next"&&c){setSt(c,c.stage+1,"next");commit()}
  else if(a==="chip"){f.stage=t.dataset.s==="all"?"all":+t.dataset.s;render()}
- else if(a==="chk"){const d=S.done[today()]=S.done[today()]||{};d[id]=!d[id];commit()}
- else if(a==="deltask"){S.tasks[t.dataset.k]=S.tasks[t.dataset.k].filter(x=>x.id!==id);commit()}
+ else if(a==="chk"){const d=S.done[today()]=S.done[today()]||{};d[id]=!d[id];const tk=ft(id);lg("tc",{i:id,ch:tk.ch,x:tk.text,on:d[id]?1:0});commit()}
+ else if(a==="deltask"){const tk=S.tasks[t.dataset.k].find(x=>x.id===id);if(tk){tk.x=today();lg("td",{i:id,ch:t.dataset.k,x:tk.text})}commit()}
  else if(a==="sug"){nav(false);resetIdea();ideas();$("#sd").showModal()}
- else if(a==="addidea"){const v=$("#it").value.trim();if(!v)return;const o=editIdea&&S.ideas.find(x=>x.id===editIdea);if(o)o.text=v;else S.ideas.unshift({id:uid(),text:v,at:Date.now()});resetIdea();commit();ideas()}
- else if(a==="delidea"){if(editIdea===id)resetIdea();S.ideas=S.ideas.filter(x=>x.id!==id);commit();ideas()}
+ else if(a==="addidea"){const v=$("#it").value.trim();if(!v)return;const o=editIdea&&S.ideas.find(x=>x.id===editIdea);if(o){lg("ie",{i:o.id,x:v,o:o.text});o.text=v}else{const n={id:uid(),text:v,at:Date.now()};S.ideas.unshift(n);lg("ia",{i:n.id,x:v})}resetIdea();commit();ideas()}
+ else if(a==="delidea"){const o=S.ideas.find(x=>x.id===id);if(o)lg("id",{i:id,x:o.text});if(editIdea===id)resetIdea();S.ideas=S.ideas.filter(x=>x.id!==id);commit();ideas()}
  else if(a==="copyideas")copyIdeas();
  else if(a==="editidea"){const o=S.ideas.find(x=>x.id===id);if(o){editIdea=id;$("#it").value=o.text;$("#sv").textContent="حفظ التعديل";$("#it").focus()}}
  else if(a==="view")openV(id);
  else if(a==="vedit"){$("#vd").close();openC(viewId)}
  else if(a==="theme")theme(eff()==="dark"?"light":"dark");
- else if(a==="install"&&installEvt){const p=installEvt;installEvt=null;$("#inst").hidden=true;p.prompt();p.userChoice.catch(()=>{})}
  else if(a==="menu")nav(true);
  else if(a==="menuclose")nav(false);
+ else if(a==="escope"){E.all=t.dataset.v==="all";render()}
+ else if(a==="erange"){const n=+t.dataset.d;E.to=n?today():"";E.from=n?iso(new Date(Date.now()-(n-1)*864e5)):"";render()}
+ else if(a==="export")doExport();
  else if(a==="pickimg")$("#pf").click();
  else if(a==="rmimg"){formImg="";ap()}
- else if(a==="dupadd"){addClient(pend.v);$("#dd").close();$("#cd").close();commit()}
- else if(a==="dupreact"){const d=S.clients.find(x=>x.id===pend.d),v=pend.v;if(d){if(d.stage>=5)d.stage=v.stage<5?v.stage:0;for(const k of["contact","note","img"])if(!d[k]&&v[k])d[k]=v[k];d.top=Date.now();f.stage="all";f.ch="all";f.q=""}$("#dd").close();$("#cd").close();commit()}
+ else if(a==="dupadd"){addClient(pend.v,1);$("#dd").close();$("#cd").close();commit()}
+ else if(a==="dupreact"){const d=S.clients.find(x=>x.id===pend.d),v=pend.v;if(d){const f0=d.stage,dd=[];if(d.stage>=5)d.stage=v.stage<5?v.stage:0;for(const k of["contact","note","img"])if(!d[k]&&v[k]){d[k]=v[k];dd.push([k,"",k==="img"?"":v[k]])}d.top=Date.now();lg("cr",{c:d.id,n:d.name,f:f0,to:d.stage,d:dd});f.stage="all";f.ch="all";f.q=""}$("#dd").close();$("#cd").close();commit()}
  else if(a==="close")t.closest("dialog").close();
  else if(a==="del"){
-  if(t.dataset.armed){S.clients=S.clients.filter(x=>x.id!==editId);commit();$("#cd").close()}
+  if(t.dataset.armed){const d0=S.clients.find(x=>x.id===editId);if(d0){const s={...d0};delete s.img;lg("cd",{c:d0.id,n:d0.name,s})}S.clients=S.clients.filter(x=>x.id!==editId);commit();$("#cd").close()}
   else{t.dataset.armed=1;t.textContent="تأكيد الحذف"}
  }
 });
 document.addEventListener("change",e=>{
  const t=e.target;
- if(t.dataset.a==="setstage"){const c=S.clients.find(x=>x.id===t.dataset.id);c.stage=+t.value;mark(c);commit()}
+ if(t.dataset.a==="setstage"){const c=S.clients.find(x=>x.id===t.dataset.id);setSt(c,+t.value,"manual");commit()}
  else if(t.id==="fch"){f.ch=t.value;render()}
  else if(t.id==="arch"){f.arch=t.checked;render()}
  else if(t.id==="pf"){pic(t.files[0]);t.value=""}
+ else if(t.dataset.e){const q=t.dataset.e;if(q==="set")E.sets[t.dataset.k]=t.checked;else E[q]=q==="stage"?(t.value==="all"?"all":+t.value):t.value;if($("#esum"))$("#esum").textContent=sumTxt()}
 });
 document.addEventListener("input",e=>{if(e.target.id==="q"){f.q=e.target.value;$("#tbl").innerHTML=tbl()}});
 document.addEventListener("keydown",e=>{
  const t=e.target;
  if(e.key==="Enter"&&t.classList&&t.classList.contains("add")&&t.value.trim()){
-  const k=t.dataset.k;S.tasks[k].push({id:uid(),text:t.value.trim()});commit();$('.add[data-k="'+k+'"]').focus();
+  const k=t.dataset.k;{const tk={id:uid(),text:t.value.trim(),at:today()};S.tasks[k].push(tk);lg("ta",{i:tk.id,ch:k,x:tk.text})}commit();$('.add[data-k="'+k+'"]').focus();
  }
 });
 $("#cf").addEventListener("submit",e=>{
  e.preventDefault();
  const d=new FormData(e.target),v={name:d.get("name").trim(),channel:d.get("channel"),stage:+d.get("stage"),contact:d.get("contact").trim(),note:d.get("note").trim(),img:formImg};
- if(editId){const c=S.clients.find(x=>x.id===editId);if(c.stage!==v.stage)mark(c);Object.assign(c,v)}
+ if(editId){const c=S.clients.find(x=>x.id===editId);const dd=[];for(const k of["name","channel","contact","note"])if(c[k]!==v[k])dd.push([k,c[k],v[k]]);if((c.img||"")!==(v.img||""))dd.push(["img","",""]);if(c.stage!==v.stage)setSt(c,v.stage,"edit");if(dd.length)lg("ce",{c:c.id,n:c.name,d:dd});Object.assign(c,v)}
  else{const m=dup(v);if(m){pend={v,d:m.c.id};showDup(m);return}addClient(v)}
  commit();$("#cd").close();
 });
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&day!==today()){day=today();render()}});
-addEventListener("hashchange",()=>{const v=location.hash.slice(1);if(VIEWS.includes(v)&&v!==view){view=v;nav(false);render();window.scrollTo(0,0)}});
-const standalone=matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
-addEventListener("beforeinstallprompt",e=>{e.preventDefault();installEvt=e;if(!standalone)$("#inst").hidden=false});
-addEventListener("appinstalled",()=>{installEvt=null;$("#inst").hidden=true});
-if(standalone)$("#inst").hidden=true;
-if("serviceWorker" in navigator&&/^https?:$/.test(location.protocol))navigator.serviceWorker.register("./sw.js").catch(()=>{});
 
 $("#cf").elements.channel.innerHTML=Object.entries(CH).map(([k,v])=>`<option value="${k}">${v.n}</option>`).join("");
 $("#cf").elements.stage.innerHTML=ST.map((s,i)=>`<option value="${i}">${s[0]}</option>`).join("");
